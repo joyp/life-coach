@@ -1,0 +1,21 @@
+extends ../shared/template
+block content
+
+  .row
+    h2 Enter New Goal
+  .row
+    .col-xs-6
+      form.form.form-horizontal(role='form', method='post', action='/goals')
+        .form-group
+          label(for='name') Enter Goal
+          input.form-control#name(type='text', name='name', autofocus=true)
+        .form-group
+          label(for='due') Choose Due Date
+          input.form-control#due(type='date', name='due')
+        .form-group
+          label(for='tags') Enter Tags
+          input.form-control#tags(type='text', name='tags')
+        button.btn-lg.btn-primary(type='submit') Add Goal
+    .col-xs-6
+
+block scripts

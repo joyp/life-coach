@@ -1,0 +1,45 @@
+'use strict';
+
+var Mongo = require('mongodb'),
+    _     = require('lodash'),
+    Task  = require('../models/task');
+
+function Goal(o, userId){
+  this.name   = o.name;
+  this.due    = new Date(o.due);
+  this.tags   = o.tags.split(',');
+  this.userId = userId;
+  this.tasks  = [];
+}
+
+Object.defineProperty(Goal, 'collection', {
+  get: function(){return global.mongodb.collection('goals');}
+});
+
+Goal.create = function(o, userId, cb){
+  var goal = new Goal(o, userId);
+  Goal.collection.save(goal,cb);
+};
+
+Goal.findAllByUserId = function(userId, cb){
+  Goal.collection.find({userId:userId}).toArray(function(err, objs){
+    cb(err, objs.map(function(o){return _.create(Goal.protoype, o);}));
+  });
+};
+
+Goal.findById = function(goalId, userId, cb){
+  var _id = Mongo.ObjectID(goalId);
+  Goal.collection.findOne({_id:_id, userId:userId}, function(err, obj){
+    cb(err, _.create(Goal.prototype, obj));
+  });
+};
+
+Goal.prototype.addTask = function(o, goalId, cb){
+  var _id   = Mongo.ObjectID(goalId),
+      task  = new Task(o, _id);
+  this.tasks.push(task);
+  Goal.collection.save(this, cb);
+};
+
+module.exports = Goal;
+

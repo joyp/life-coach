@@ -1,0 +1,21 @@
+extends ../shared/template
+block content
+
+  .row
+    h2 Goals
+  .row
+    .col-xs-12
+      table.table.tablebordered
+        thead
+          tr
+            th Goal
+            th Due
+            th Tags
+        tbody
+          each goal in goals
+            tr
+              td: a(href='/goals/#{goal._id}')= goal.name
+              td= goal.due
+              td= goal.tags
+
+block scripts
