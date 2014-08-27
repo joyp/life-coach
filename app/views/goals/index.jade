@@ -14,7 +14,7 @@ block content
         tbody
           each goal in goals
             tr
-              td: a(href='/goals/#{goal._id}')= goal.name
+              td: a#goalLink(href='/goals/#{goal._id}')= goal.name
               td= goal.due
               td= goal.tags
 

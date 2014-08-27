@@ -2,7 +2,7 @@
 
 var Mongo = require('mongodb'),
     _     = require('lodash'),
-    Task  = require('../models/task');
+    Task  = require('./task');
 
 function Goal(o, userId){
   this.name   = o.name;
@@ -30,14 +30,20 @@ Goal.findAllByUserId = function(userId, cb){
 Goal.findById = function(goalId, userId, cb){
   var _id = Mongo.ObjectID(goalId);
   Goal.collection.findOne({_id:_id, userId:userId}, function(err, obj){
-    cb(err, _.create(Goal.prototype, obj));
+    if(obj){
+      cb(err, _.create(Goal.prototype, obj));
+    }else{
+      cb();
+    }
   });
 };
 
-Goal.prototype.addTask = function(o, goalId, cb){
-  var _id   = Mongo.ObjectID(goalId),
-      task  = new Task(o, _id);
+Goal.prototype.addTask = function(o){
+  var task  = new Task(o);
   this.tasks.push(task);
+};
+
+Goal.prototype.save = function(cb){
   Goal.collection.save(this, cb);
 };
 

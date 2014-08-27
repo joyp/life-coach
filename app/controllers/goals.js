@@ -31,8 +31,9 @@ exports.show = function(req, res){
 exports.addTask = function(req, res){
   Goal.findById(req.params.goalId, res.locals.user._id, function(err, goal){
     if(goal){
-      Goal.addTask(req.body, req.params.goalId, function(err, task){
-        res.render('goals/show', {task:task});
+      goal.addTask(req.body);
+      goal.save(function(){
+        res.redirect('/goals/' + req.params.goalId);
       });
     }else{
       res.redirect('/');

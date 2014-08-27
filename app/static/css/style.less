@@ -1,6 +1,16 @@
-@base: #cc33ff;
+@base: #cc99ff;
+@textLink: #990033;
 
 body{
-  background-color: saturate(@base, 5%);
+  background-color: @base;
 }
 
+#goalLink{
+  text-decoration: none;
+  font-weight: bold;
+  color: @textLink;
+}
+
+#goalLink:hover{
+  color: #e68a2e;
+}

@@ -12,7 +12,7 @@ block content
             th Description
             th Rank
         tbody
-          each task in tasks
+          each task in goal.tasks
             tr
               td= task.name
               td= task.difficulty
@@ -21,7 +21,7 @@ block content
               td= task.rank
     .col-xs-6
       h2 Add Task
-      form(role='form', method='post', action='/goals/#{goal._id}/tasks')
+      form(role='form', method='post', action='/goals/#{goal._id}')
         .form-group
           label(for='name') Name
           input.form-control#name(type='text', name='name', autofocus=true)
